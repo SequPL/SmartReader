@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AngleSharp;
@@ -2217,13 +2218,13 @@ namespace SmartReader
             return size;
         }
 
-        internal async Task<byte[]> GetImageBytesAsync(Uri resource)
+        public async Task<byte[]> GetImageBytesAsync(Uri resource, CancellationToken ct = default)
         {
             using var httpClient = new HttpClient(_httpClientHandler.Value, false);
 
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(_userAgent);
 
-            using var response = await httpClient.GetAsync(resource).ConfigureAwait(false);
+            using var response = await httpClient.GetAsync(resource, ct).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {

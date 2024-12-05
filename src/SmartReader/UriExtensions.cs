@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SmartReader
 {
-    internal static class UriExtensions
+    public static class UriExtensions
     {
         internal static string GetBase(this Uri startUri)
         {
@@ -32,7 +32,7 @@ namespace SmartReader
             return GetBase(startUri) + startUri.AbsolutePath.Substring(0, startUri.AbsolutePath.LastIndexOf("/") + 1);
         }
 
-        internal static string ToAbsoluteURI(this Uri pageUri, string uriToCheck)
+        public static string ToAbsoluteURI(this Uri pageUri, string uriToCheck)
         {
             var scheme = pageUri.Scheme;
             var prePath = GetBase(pageUri);

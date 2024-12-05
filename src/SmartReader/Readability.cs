@@ -15,7 +15,7 @@ namespace SmartReader
     /// <para>This class contains the heuristics and utility functions used to make an article readable.</para>
     /// <para>Put in a separate class to allow easier testing</para>
     /// </summary>
-    internal static class Readability
+    public static class Readability
     {
         private static readonly Regex RE_Normalize =
             new Regex(@"\s{2,}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -45,7 +45,7 @@ namespace SmartReader
         /// </summary>
         /// <param name="node">The root node from which all classes must be removed.</param>
         /// <param name="classesToPreserve">The classes to preserve.</param>
-        internal static void CleanClasses(IElement node, string[] classesToPreserve)
+        public static void CleanClasses(IElement node, string[] classesToPreserve)
         {
             var className = "";
 
@@ -78,7 +78,7 @@ namespace SmartReader
         /// <param name="articleContent">The node in which to fix all relative uri</param>
         /// <param name="uri">The base uri</param>
         /// <param name="doc">The document to operate on</param>
-        internal static void FixRelativeUris(IElement articleContent, Uri uri, IHtmlDocument doc)
+        public static void FixRelativeUris(IElement articleContent, Uri uri, IHtmlDocument doc)
         {
             var scheme = uri.Scheme;
             var prePath = uri.GetBase();
@@ -161,7 +161,7 @@ namespace SmartReader
         /// <returns>
         /// The clean title
         /// </returns>
-        internal static string CleanTitle(string title, string? siteName)
+        public static string CleanTitle(string title, string? siteName)
         {
             // eliminate any text after a separator
             if (!string.IsNullOrEmpty(siteName) && title.IndexOfAny(titleSeperators) != -1)
@@ -183,7 +183,7 @@ namespace SmartReader
         /// <returns>
         /// The clean title
         /// </returns>
-        internal static void SimplifyNestedElements(IElement articleContent)
+        public static void SimplifyNestedElements(IElement articleContent)
         {
             var node = articleContent;
 
@@ -313,7 +313,7 @@ namespace SmartReader
         /// </summary>
         /// <param name="textA">first text to compare</param>
         /// <param name="textB">second text to compare</param>
-        internal static float TextSimilarity(string textA, string textB)
+        public static float TextSimilarity(string textA, string textB)
         {
             var tokensA = RE_Tokenize.Split(textA.ToLowerInvariant()).Where(x => x.Length != 0).ToArray();
             var tokensB = RE_Tokenize.Split(textB.ToLowerInvariant()).Where(x => x.Length != 0).ToArray();
@@ -334,7 +334,7 @@ namespace SmartReader
         /// </summary>
         /// <param name="byline">a string to check whether its a byline</param>
         /// <returns>Whether the input string is a byline</returns>
-        internal static bool IsValidByline(ReadOnlySpan<char> byline)
+        public static bool IsValidByline(ReadOnlySpan<char> byline)
         {
             return byline.Trim().Length is > 0 and < 100;
         }
@@ -345,7 +345,7 @@ namespace SmartReader
         /// </summary>
         /// <param name="doc">The document</param>
         /// <returns>Dictionary with any metadata that could be extracted (possibly none)</returns>
-        internal static Dictionary<string, string> GetJSONLD(IHtmlDocument doc)
+        public static Dictionary<string, string> GetJSONLD(IHtmlDocument doc)
         {
             var jsonLDMetadata = new Dictionary<string, string>();
 

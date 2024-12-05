@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 using AngleSharp.Dom;
@@ -216,7 +217,7 @@ namespace SmartReader
         /// <returns>
         /// An empty Task object
         /// </returns>
-        public async Task ConvertImagesToDataUriAsync(long minSize = 75000)
+        public async Task ConvertImagesToDataUriAsync(long minSize = 75000, CancellationToken ct = default)
         {
             if (_element is null) return;
 
@@ -229,7 +230,7 @@ namespace SmartReader
                     try
                     {
                         // download image
-                        byte[] bytes = await _reader!.GetImageBytesAsync(imageUri).ConfigureAwait(false);
+                        byte[] bytes = await _reader!.GetImageBytesAsync(imageUri, ct).ConfigureAwait(false);
 
                         if (bytes.LongLength > minSize)
                         {

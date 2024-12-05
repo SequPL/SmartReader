@@ -26,7 +26,7 @@ namespace SmartReader
         /// </summary>
         /// <param name="path">The path is used just to determine the mime type</param>
         /// <param name="bytes">The actual binary content of the image</param>
-        internal static string ConvertImageToDataUri(string path, byte[] bytes)
+        public static string ConvertImageToDataUri(string path, byte[] bytes)
         {
             int dotIndex = path.LastIndexOf('.');
             string extension = dotIndex > 0 ? path.Substring(dotIndex) : string.Empty;
