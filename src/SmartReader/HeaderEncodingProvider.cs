@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SmartReader
 {
-    internal class HeaderEncodingProvider : IEncodingProvider
+    public class HeaderEncodingProvider : IEncodingProvider
     {
         private string _charset;
         public HeaderEncodingProvider(string charset)
