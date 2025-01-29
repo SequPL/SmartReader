@@ -77,7 +77,7 @@ namespace SmartReader
         /// <value>Default: the ConvertToPlaintext method</value>
         public static Func<IElement, string> Converter { get; set; } = ConvertToPlaintext;
 
-        private readonly IElement? _element = null;
+        public readonly IElement? _element = null;
         private readonly Reader? _reader;
         private TimeSpan? _timeToRead = null;
 
