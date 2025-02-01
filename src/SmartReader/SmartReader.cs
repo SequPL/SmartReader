@@ -363,13 +363,13 @@ namespace SmartReader
         /// <returns>
         /// An async Task Article object with all the data extracted
         /// </returns>    
-        public async Task<Article> GetArticleAsync()
+        public async Task<Article> GetArticleAsync(CancellationToken ct = default)
         {
             try
             {
                 if (doc is null)
                 {
-                    var stream = await GetStreamAsync(uri).ConfigureAwait(false);
+                    var stream = await GetStreamAsync(uri, ct).ConfigureAwait(false);
                     var context = string.IsNullOrEmpty(charset) ? BrowsingContext.New(Configuration.Default)
                                                                 : BrowsingContext.New(Configuration.Default.With(new HeaderEncodingProvider(charset!)));
                     var parser = new HtmlParser(new HtmlParserOptions { IsScripting = true }, context);
@@ -2084,7 +2084,7 @@ namespace SmartReader
         /// <returns>
         /// An article object with all the data extracted
         /// </returns> 
-        private Article Parse()
+        public Article Parse()
         {
             if (doc == null)
                 throw new Exception("No document found");
@@ -2162,13 +2162,13 @@ namespace SmartReader
             return new Article(uri, articleTitle, articleByline, articleDir, language, author, articleContent, metadata, isReadable, this);
         }
 
-        private async Task<Stream> GetStreamAsync(Uri resource)
+        private async Task<Stream> GetStreamAsync(Uri resource, CancellationToken ct = default)
         {
             using var httpClient = new HttpClient(_httpClientHandler.Value, false);
 
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(_userAgent);
 
-            var response = await httpClient.GetAsync(resource).ConfigureAwait(false);
+            var response = await httpClient.GetAsync(resource, ct).ConfigureAwait(false);
 
             if (!response.IsSuccessStatusCode)
             {
